@@ -41,6 +41,35 @@
                 android:textSize="14sp"
                 android:fontFamily="@font/sniglet"/>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right">
+
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="50 "
+                    android:fontFamily="@font/sniglet"/>
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Menit "
+                    android:fontFamily="@font/sniglet"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_timer_24" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </LinearLayout>

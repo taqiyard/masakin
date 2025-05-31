@@ -1,64 +1,108 @@
 package com.example.masakin;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 public class AddFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private ImageButton ibUploadImage;
+    private Uri selectedImageUri = null;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public AddFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddFragment newInstance(String param1, String param2) {
-        AddFragment fragment = new AddFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+        EditText etTitle = view.findViewById(R.id.etAddTitle);
+        EditText etDesc = view.findViewById(R.id.etAddDesc);
+        EditText etIngredients = view.findViewById(R.id.etAddIngredients);
+        EditText etInstructions = view.findViewById(R.id.etAddInstructions);
+        EditText etTime = view.findViewById(R.id.etAddTime);
+        Button btnSave = view.findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(v -> {
+            String title = etTitle.getText().toString().trim();
+            String desc = etDesc.getText().toString().trim();
+            String ingredients = etIngredients.getText().toString().trim();
+            String instructions = etInstructions.getText().toString().trim();
+            String timeStr = etTime.getText().toString().trim();
+            int isFav = 0;
+            int isMine = 1;
+            int isDel = 0;
+
+            if (title.isEmpty() || desc.isEmpty() || ingredients.isEmpty() || instructions.isEmpty() || timeStr.isEmpty()) {
+                Toast.makeText(getContext(), "Harap isi semua data", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedImageUri == null) {
+                Toast.makeText(getContext(), "Harap pilih gambar", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int time = Integer.parseInt(timeStr);
+            String imageUriString = selectedImageUri.toString();
+
+            Recipe recipe = new Recipe(title, desc, ingredients, instructions,imageUriString,isFav, isMine, isDel,time);
+            DBHelper dbHelper = new DBHelper(getContext());
+            boolean inserted = dbHelper.insertRecipe(recipe);
+
+            if (inserted) {
+                Toast.makeText(getContext(), "Resep berhasil disimpan", Toast.LENGTH_SHORT).show();
+                etTitle.setText("");
+                etDesc.setText("");
+                etIngredients.setText("");
+                etInstructions.setText("");
+                etTime.setText("");
+                ibUploadImage.setImageResource(R.drawable.upload_foto); // atau default
+                selectedImageUri = null;
+            } else {
+                Toast.makeText(getContext(), "Gagal menyimpan resep", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ibUploadImage = view.findViewById(R.id.ibUploadImage);
+        ibUploadImage.setOnClickListener(v -> openImagePicker());
+
+
+
+        return view;
+    }
+
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            selectedImageUri = data.getData();
+            ibUploadImage.setImageURI(selectedImageUri);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add, container, false);
     }
 }

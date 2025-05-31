@@ -26,6 +26,7 @@ public class DetailRecipeActivity extends AppCompatActivity {
         TextView tvIngredients = findViewById(R.id.tvIngredients);
         TextView tvInstructions = findViewById(R.id.tvInstructions);
         ImageButton ibBack = findViewById(R.id.ibBack);
+        TextView tvTime = findViewById(R.id.tvTime);
 
         ibBack.setOnClickListener(v -> finish());
 
@@ -35,11 +36,13 @@ public class DetailRecipeActivity extends AppCompatActivity {
         String ingredients = intent.getStringExtra("ingredients");
         String instructions = intent.getStringExtra("instructions");
         String imageName = intent.getStringExtra("image");
+        int time = intent.getIntExtra("time",30);
 
         tvTitle.setText(title);
         tvDesc.setText(desc);
         tvIngredients.setText(ingredients);
         tvInstructions.setText(instructions);
+        tvTime.setText(String.valueOf(time));
 
         int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
         if (imageResId != 0) {

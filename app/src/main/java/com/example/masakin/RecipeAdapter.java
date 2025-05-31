@@ -38,6 +38,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = recipeList.get(position);
         holder.tvTitle.setText(recipe.getTitle());
         holder.tvDesc.setText(recipe.getDesc());
+        holder.tvTime.setText(String.valueOf(recipe.getTime()));
 
         String imageName = recipe.getImage();
         if (imageName != null && !imageName.isEmpty()) {
@@ -60,6 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             intent.putExtra("ingredients", recipe.getIngredients());
             intent.putExtra("instructions", recipe.getInstructions());
             intent.putExtra("image", recipe.getImage());
+            intent.putExtra("time", recipe.getTime());
             holder.itemView.getContext().startActivity(intent);
         });
 
@@ -72,13 +74,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle,tvDesc;
+        TextView tvTitle,tvDesc,tvTime;
         ImageView ivImage;
 
         public RecipeViewHolder(@NonNull View itemview){
             super(itemview);
             tvTitle = itemview.findViewById(R.id.tvTitle);
             tvDesc = itemview.findViewById(R.id.tvDesc);
+            tvTime = itemview.findViewById(R.id.tvTime);
             ivImage = itemview.findViewById(R.id.ivImage);
 
         }
