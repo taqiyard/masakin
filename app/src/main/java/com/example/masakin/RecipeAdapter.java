@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
@@ -34,24 +37,37 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return new RecipeViewHolder(view);
     }
 
-    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.tvTitle.setText(recipe.getTitle());
         holder.tvDesc.setText(recipe.getDesc());
         holder.tvTime.setText(String.valueOf(recipe.getTime()));
 
-        String imageName = recipe.getImage();
-        if (imageName != null && !imageName.isEmpty()) {
-            int imageResId = holder.itemView.getContext().getResources()
-                    .getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
-            if (imageResId != 0) {
-                holder.ivImage.setImageResource(imageResId);
+        String imagePath = recipe.getImage();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            if (imagePath.startsWith("/")) {
+                // Path lokal ⇒ muat pakai Glide dari File
+                Glide.with(holder.itemView.getContext())
+                        .load(new File(imagePath))
+                        .placeholder(R.drawable.default_image)
+                        .into(holder.ivImage);
             } else {
-                holder.ivImage.setImageResource(R.drawable.default_image); // Gambar default kalau tidak ditemukan
-                Log.d("IMAGE_LOAD", "Image name: " + imageName + ", ResId: " + imageResId);
+                // Nama drawable ⇒ muat dari resources
+                int resId = holder.itemView.getContext()
+                        .getResources()
+                        .getIdentifier(
+                                imagePath,
+                                "drawable",
+                                holder.itemView.getContext().getPackageName()
+                        );
+                if (resId != 0) {
+                    holder.ivImage.setImageResource(resId);
+                } else {
+                    holder.ivImage.setImageResource(R.drawable.default_image);
+                }
             }
         } else {
-            holder.ivImage.setImageResource(R.drawable.default_image); // Gambar default kalau null atau kosong
+            holder.ivImage.setImageResource(R.drawable.default_image);
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -64,8 +80,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             intent.putExtra("time", recipe.getTime());
             holder.itemView.getContext().startActivity(intent);
         });
-
-
     }
 
 

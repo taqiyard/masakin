@@ -13,6 +13,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+
 public class DetailRecipeActivity extends AppCompatActivity {
 
     @Override
@@ -44,11 +48,27 @@ public class DetailRecipeActivity extends AppCompatActivity {
         tvInstructions.setText(instructions);
         tvTime.setText(String.valueOf(time));
 
-        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
-        if (imageResId != 0) {
-            ivImage.setImageResource(imageResId);
+        imageName = intent.getStringExtra("image");
+
+        if (imageName != null && !imageName.isEmpty()) {
+            if (imageName.startsWith("/")) {
+                // Ini path file lokal, muat dari file
+                Glide.with(this)
+                        .load(new File(imageName))
+                        .placeholder(R.drawable.default_image)
+                        .into(ivImage);
+            } else {
+                // Ini nama drawable
+                int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+                if (imageResId != 0) {
+                    ivImage.setImageResource(imageResId);
+                } else {
+                    ivImage.setImageResource(R.drawable.default_image);
+                }
+            }
         } else {
             ivImage.setImageResource(R.drawable.default_image);
         }
+
     }
 }

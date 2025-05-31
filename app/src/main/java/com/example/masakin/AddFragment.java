@@ -2,6 +2,7 @@ package com.example.masakin;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,11 +18,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class AddFragment extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageButton ibUploadImage;
     private Uri selectedImageUri = null;
+    private String selectedImagePath = null;
+
 
 
     public AddFragment() {
@@ -56,7 +67,7 @@ public class AddFragment extends Fragment {
                 return;
             }
 
-            if (selectedImageUri == null) {
+            if (selectedImagePath == null) {
                 Toast.makeText(getContext(), "Harap pilih gambar", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -64,7 +75,7 @@ public class AddFragment extends Fragment {
             int time = Integer.parseInt(timeStr);
             String imageUriString = selectedImageUri.toString();
 
-            Recipe recipe = new Recipe(title, desc, ingredients, instructions,imageUriString,isFav, isMine, isDel,time);
+            Recipe recipe = new Recipe(title, desc, ingredients, instructions,selectedImagePath,isFav, isMine, isDel,time);
             DBHelper dbHelper = new DBHelper(getContext());
             boolean inserted = dbHelper.insertRecipe(recipe);
 
@@ -75,8 +86,9 @@ public class AddFragment extends Fragment {
                 etIngredients.setText("");
                 etInstructions.setText("");
                 etTime.setText("");
+                selectedImagePath = null;
                 ibUploadImage.setImageResource(R.drawable.upload_foto); // atau default
-                selectedImageUri = null;
+
             } else {
                 Toast.makeText(getContext(), "Gagal menyimpan resep", Toast.LENGTH_SHORT).show();
             }
@@ -92,17 +104,54 @@ public class AddFragment extends Fragment {
     }
 
     private void openImagePicker() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+
+
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData();
-            ibUploadImage.setImageURI(selectedImageUri);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            selectedImageUri = imageUri; // <<-- ini tambahan
+
+            // Salin ke internal storage
+            String imagePath = copyImageToInternalStorage(imageUri, "img_" + System.currentTimeMillis() + ".jpg");
+
+            if (imagePath != null) {
+                selectedImagePath = imagePath;
+                Glide.with(this).load(imagePath).into(ibUploadImage);
+            }
         }
     }
+
+
+    public String copyImageToInternalStorage(Uri uri, String filename) {
+        try {
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+            File file = new File(requireContext().getFilesDir(), filename);
+            OutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+            return file.getAbsolutePath(); // ini yang bisa disimpan di SQLite
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
