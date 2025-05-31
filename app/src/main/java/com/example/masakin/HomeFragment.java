@@ -75,11 +75,13 @@ public class HomeFragment extends Fragment {
         tvUsername.setText(username);
 
         return view;
+
+
     }
 
     private void filterList(String text) {
-        if (recipeList == null) return;
-
+        dbHelper = new DBHelper(getContext());
+        List<Recipe> recipeList = dbHelper.getAllRecipes();
         List<Recipe> filteredList = new ArrayList<>();
         for (Recipe recipe : recipeList){
             if (recipe.getTitle().toLowerCase().contains(text.toLowerCase())){

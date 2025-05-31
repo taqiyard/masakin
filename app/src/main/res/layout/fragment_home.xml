@@ -49,7 +49,7 @@
                 android:layout_marginBottom="34dp"
                 android:backgroundTint="#E7EED2"
                 android:fontFamily="@font/sniglet"
-                android:text="Hello "
+                android:text="Halo"
                 android:textColor="#E7EED2"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +109,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resep Populer"
+            android:fontFamily="@font/sniglet"
+            android:textSize="30dp"
+            android:layout_margin="10dp"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -1,5 +1,6 @@
 package com.example.masakin;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             holder.ivImage.setImageResource(R.drawable.default_image); // Gambar default kalau null atau kosong
         }
 
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DetailRecipeActivity.class);
+            intent.putExtra("title", recipe.getTitle());
+            intent.putExtra("desc", recipe.getDesc());
+            intent.putExtra("ingredients", recipe.getIngredients());
+            intent.putExtra("instructions", recipe.getInstructions());
+            intent.putExtra("image", recipe.getImage());
+            holder.itemView.getContext().startActivity(intent);
+        });
+
+
     }
 
 
@@ -71,5 +83,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         }
     }
+
 
 }

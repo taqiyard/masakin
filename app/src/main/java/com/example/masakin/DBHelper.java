@@ -42,8 +42,41 @@ public class DBHelper extends SQLiteOpenHelper {
         values1.put("instructions", "1. Tumis bawang\n2. Masukkan telur\n3. Masukkan nasi\n4. Tambahkan kecap");
         values1.put("image", "mie_goreng"); // bisa nama resource tanpa ekstensi
 
+        ContentValues values2 = new ContentValues();
+        values2.put("title", "Ayam Bakar");
+        values2.put("desc", "Ayam bakar bumbu khas");
+        values2.put("ingredients", "Ayam, kecap, bawang putih, bawang merah, ketumbar");
+        values2.put("instructions", "1. Haluskan bumbu\n2. Lumuri ayam\n3. Bakar ayam hingga matang");
+        values2.put("image", "ayam_bakar");
+
+        ContentValues values3 = new ContentValues();
+        values3.put("title", "Soto Ayam");
+        values3.put("desc", "Soto ayam kuning khas Jawa");
+        values3.put("ingredients", "Ayam, kunyit, serai, bawang putih, daun bawang");
+        values3.put("instructions", "1. Rebus ayam\n2. Tumis bumbu\n3. Campur semua dan sajikan panas");
+        values3.put("image", "soto_ayam");
+
+        ContentValues values4 = new ContentValues();
+        values4.put("title", "Tempe Orek");
+        values4.put("desc", "Tempe orek manis pedas");
+        values4.put("ingredients", "Tempe, bawang, cabe, kecap");
+        values4.put("instructions", "1. Goreng tempe\n2. Tumis bumbu\n3. Masukkan tempe dan kecap");
+        values4.put("image", "tempe_orek");
+
+        ContentValues values5 = new ContentValues();
+        values5.put("title", "Capcay");
+        values5.put("desc", "Capcay sayur sehat dan lezat");
+        values5.put("ingredients", "Wortel, kol, brokoli, bawang putih, saus tiram");
+        values5.put("instructions", "1. Tumis bawang\n2. Masukkan sayur\n3. Tambahkan saus dan air, masak sebentar");
+        values5.put("image", "capcay");
+
+
         db.insert("recipes", null, values);
         db.insert("recipes", null, values1);
+        db.insert("recipes", null, values2);
+        db.insert("recipes", null, values3);
+        db.insert("recipes", null, values4);
+        db.insert("recipes", null, values5);
     }
 
     @Override
