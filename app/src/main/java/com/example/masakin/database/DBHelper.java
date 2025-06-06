@@ -35,65 +35,155 @@ public class DBHelper extends SQLiteOpenHelper {
                 "isDel INTEGER DEFAULT 0, " +
                 "time INTEGER)");
 
-        ContentValues values = new ContentValues();
-        values.put("title", "Nasi Goreng");
-        values.put("desc", "Nasi goreng simpel dan enak");
-        values.put("ingredients", "Nasi, telur, bawang, kecap");
-        values.put("instructions", "1. Tumis bawang\n2. Masukkan telur\n3. Masukkan nasi\n4. Tambahkan kecap");
-        values.put("image", "nasi_goreng"); // bisa nama resource tanpa ekstensi
-        values.put("time",15);
+        // Resep 1
+        ContentValues v1 = new ContentValues();
+        v1.put("title", "Nasi Goreng Spesial");
+        v1.put("desc", "Nasi goreng dengan topping telur dan sosis");
+        v1.put("ingredients", "Nasi putih, Telur, Sosis, Bawang putih, Bawang merah, Kecap manis, Minyak");
+        v1.put("instructions", "1. Tumis bawang putih dan merah.\n2. Masukkan telur, orak-arik.\n3. Tambahkan sosis dan nasi.\n4. Tuang kecap, aduk rata, sajikan.");
+        v1.put("image", "nasi_goreng");
+        v1.put("time", 20);
+        db.insert("recipes", null, v1);
 
-        ContentValues values1 = new ContentValues();
-        values1.put("title", "Mie Goreng");
-        values1.put("desc", "Mie goreng ga enak");
-        values1.put("ingredients", "Nasi, telur, bawang, kecap");
-        values1.put("instructions", "1. Tumis bawang\n2. Masukkan telur\n3. Masukkan nasi\n4. Tambahkan kecap");
-        values1.put("image", "mie_goreng"); // bisa nama resource tanpa ekstensi
-        values1.put("time",15);
+        // Resep 2
+        ContentValues v2 = new ContentValues();
+        v2.put("title", "Mie Goreng Jawa");
+        v2.put("desc", "Mie goreng khas Jawa dengan rasa gurih manis");
+        v2.put("ingredients", "Mie telur, Kol, Wortel, Ayam suwir, Bawang putih, Kecap manis, Garam, Merica");
+        v2.put("instructions", "1. Rebus mie.\n2. Tumis bawang putih.\n3. Masukkan sayur dan ayam.\n4. Tambahkan mie, kecap, dan bumbu. Aduk rata.");
+        v2.put("image", "mie_goreng");
+        v2.put("time", 25);
+        db.insert("recipes", null, v2);
 
-        ContentValues values2 = new ContentValues();
-        values2.put("title", "Ayam Bakar");
-        values2.put("desc", "Ayam bakar bumbu khas");
-        values2.put("ingredients", "Ayam, kecap, bawang putih, bawang merah, ketumbar");
-        values2.put("instructions", "1. Haluskan bumbu\n2. Lumuri ayam\n3. Bakar ayam hingga matang");
-        values2.put("image", "ayam_bakar");
-        values2.put("time",30);
+        // Resep 3
+        ContentValues v3 = new ContentValues();
+        v3.put("title", "Ayam Bakar Kecap");
+        v3.put("desc", "Ayam bakar dengan bumbu kecap manis pedas");
+        v3.put("ingredients", "Ayam, Kecap manis, Bawang putih, Bawang merah, Cabai, Garam, Ketumbar");
+        v3.put("instructions", "1. Haluskan bumbu.\n2. Lumuri ayam, marinasi 1 jam.\n3. Bakar sambil oles bumbu hingga matang.");
+        v3.put("image", "ayam_bakar");
+        v3.put("time", 40);
+        db.insert("recipes", null, v3);
 
+        // Resep 4
+        ContentValues v4 = new ContentValues();
+        v4.put("title", "Soto Ayam Kampung");
+        v4.put("desc", "Soto ayam berkuah kuning dengan ayam kampung");
+        v4.put("ingredients", "Ayam kampung, Serai, Kunyit, Jahe, Daun bawang, Bawang putih, Garam, Air");
+        v4.put("instructions", "1. Rebus ayam hingga empuk.\n2. Tumis bumbu halus.\n3. Campurkan ke dalam rebusan ayam.\n4. Tambahkan daun bawang, sajikan.");
+        v4.put("image", "soto_ayam");
+        v4.put("time", 45);
+        db.insert("recipes", null, v4);
 
-        ContentValues values3 = new ContentValues();
-        values3.put("title", "Soto Ayam");
-        values3.put("desc", "Soto ayam kuning khas Jawa");
-        values3.put("ingredients", "Ayam, kunyit, serai, bawang putih, daun bawang");
-        values3.put("instructions", "1. Rebus ayam\n2. Tumis bumbu\n3. Campur semua dan sajikan panas");
-        values3.put("image", "soto_ayam");
-        values3.put("time",30);
+        // Resep 5
+        ContentValues v5 = new ContentValues();
+        v5.put("title", "Tempe Orek Pedas");
+        v5.put("desc", "Tempe tumis dengan bumbu manis pedas");
+        v5.put("ingredients", "Tempe, Bawang merah, Cabai rawit, Kecap, Gula, Garam");
+        v5.put("instructions", "1. Goreng tempe hingga kering.\n2. Tumis bawang dan cabai.\n3. Masukkan tempe dan kecap. Aduk rata.");
+        v5.put("image", "tempe_orek");
+        v5.put("time", 15);
+        db.insert("recipes", null, v5);
 
+        // Resep 6
+        ContentValues v6 = new ContentValues();
+        v6.put("title", "Capcay Kuah");
+        v6.put("desc", "Sayur capcay kuah sehat dan lezat");
+        v6.put("ingredients", "Wortel, Kol, Sawi, Bunga kol, Jagung muda, Bawang putih, Saus tiram, Garam, Merica");
+        v6.put("instructions", "1. Tumis bawang putih.\n2. Tambahkan semua sayur.\n3. Tambahkan air, saus tiram, dan bumbu. Masak hingga matang.");
+        v6.put("image", "capcay");
+        v6.put("time", 20);
+        db.insert("recipes", null, v6);
 
-        ContentValues values4 = new ContentValues();
-        values4.put("title", "Tempe Orek");
-        values4.put("desc", "Tempe orek manis pedas");
-        values4.put("ingredients", "Tempe, bawang, cabe, kecap");
-        values4.put("instructions", "1. Goreng tempe\n2. Tumis bumbu\n3. Masukkan tempe dan kecap");
-        values4.put("image", "tempe_orek");
-        values4.put("time",20);
+        // Resep 7
+        ContentValues v7 = new ContentValues();
+        v7.put("title", "Rendang Daging");
+        v7.put("desc", "Rendang daging sapi khas Minang yang gurih dan pedas");
+        v7.put("ingredients", "Daging sapi, Santan, Lengkuas, Serai, Cabai merah, Bawang merah, Bawang putih, Daun jeruk");
+        v7.put("instructions", "1. Tumis bumbu halus.\n2. Masukkan daging dan santan.\n3. Masak lama dengan api kecil hingga kering dan empuk.");
+        v7.put("image", "rendang");
+        v7.put("time", 120);
+        db.insert("recipes", null, v7);
 
+        // Resep 8
+        ContentValues v8 = new ContentValues();
+        v8.put("title", "Tumis Kangkung");
+        v8.put("desc", "Tumis kangkung sederhana dan nikmat");
+        v8.put("ingredients", "Kangkung, Bawang putih, Cabai merah, Terasi, Garam");
+        v8.put("instructions", "1. Tumis bawang dan cabai.\n2. Tambahkan kangkung.\n3. Tambahkan terasi dan garam. Tumis cepat, sajikan.");
+        v8.put("image", "kangkung");
+        v8.put("time", 10);
+        db.insert("recipes", null, v8);
 
-        ContentValues values5 = new ContentValues();
-        values5.put("title", "Capcay");
-        values5.put("desc", "Capcay sayur sehat dan lezat");
-        values5.put("ingredients", "Wortel, kol, brokoli, bawang putih, saus tiram");
-        values5.put("instructions", "1. Tumis bawang\n2. Masukkan sayur\n3. Tambahkan saus dan air, masak sebentar");
-        values5.put("image", "capcay");
-        values5.put("time",15);
+        // Resep 9
+        ContentValues v9 = new ContentValues();
+        v9.put("title", "Bakwan Sayur");
+        v9.put("desc", "Gorengan bakwan renyah isi sayuran");
+        v9.put("ingredients", "Kol, Wortel, Tepung terigu, Bawang putih, Air, Garam, Merica");
+        v9.put("instructions", "1. Campur semua bahan.\n2. Tambahkan air hingga adonan kental.\n3. Goreng hingga kecokelatan.");
+        v9.put("image", "bakwan");
+        v9.put("time", 20);
+        db.insert("recipes", null, v9);
 
+        // Resep 10
+        ContentValues v10 = new ContentValues();
+        v10.put("title", "Perkedel Kentang");
+        v10.put("desc", "Perkedel kentang goreng lembut di dalam");
+        v10.put("ingredients", "Kentang, Bawang goreng, Telur, Garam, Merica, Seledri");
+        v10.put("instructions", "1. Rebus dan haluskan kentang.\n2. Campur bahan lain.\n3. Bentuk bulat, goreng hingga matang.");
+        v10.put("image", "perkedel");
+        v10.put("time", 25);
+        db.insert("recipes", null, v10);
 
+        // Resep 11
+        ContentValues v11 = new ContentValues();
+        v11.put("title", "Telur Dadar Padang");
+        v11.put("desc", "Telur dadar tebal dengan bumbu khas Padang");
+        v11.put("ingredients", "Telur, Kelapa parut, Cabai, Bawang, Daun kunyit, Daun bawang, Garam");
+        v11.put("instructions", "1. Campur semua bahan.\n2. Goreng dengan minyak banyak dan api kecil agar matang merata.");
+        v11.put("image", "telur_dadar");
+        v11.put("time", 15);
+        db.insert("recipes", null, v11);
 
-        db.insert("recipes", null, values);
-        db.insert("recipes", null, values1);
-        db.insert("recipes", null, values2);
-        db.insert("recipes", null, values3);
-        db.insert("recipes", null, values4);
-        db.insert("recipes", null, values5);
+        // Resep 12
+        ContentValues v12 = new ContentValues();
+        v12.put("title", "Sambal Goreng Kentang Ati");
+        v12.put("desc", "Kentang dan ati sapi dimasak sambal merah pedas");
+        v12.put("ingredients", "Kentang, Ati sapi, Bawang merah, Cabai, Tomat, Garam, Gula");
+        v12.put("instructions", "1. Goreng kentang dan ati.\n2. Tumis sambal.\n3. Masukkan kentang dan ati. Aduk rata.");
+        v12.put("image", "kentang_ati");
+        v12.put("time", 35);
+        db.insert("recipes", null, v12);
+
+        // Resep 13
+        ContentValues v13 = new ContentValues();
+        v13.put("title", "Sayur Asem");
+        v13.put("desc", "Sayur kuah segar dengan rasa asam khas");
+        v13.put("ingredients", "Melinjo, Kacang panjang, Jagung, Labu siam, Asam jawa, Bawang, Gula merah");
+        v13.put("instructions", "1. Rebus air dan asam.\n2. Masukkan bahan.\n3. Bumbui dan masak hingga empuk.");
+        v13.put("image", "sayur_asem");
+        v13.put("time", 30);
+        db.insert("recipes", null, v13);
+
+        // Resep 14
+        ContentValues v14 = new ContentValues();
+        v14.put("title", "Ayam Kecap");
+        v14.put("desc", "Ayam dimasak dengan saus kecap manis gurih");
+        v14.put("ingredients", "Ayam, Kecap manis, Bawang bombay, Bawang putih, Garam, Lada, Air");
+        v14.put("instructions", "1. Tumis bawang.\n2. Masukkan ayam, tambahkan kecap dan bumbu.\n3. Masak hingga kuah menyusut.");
+        v14.put("image", "ayam_kecap");
+        v14.put("time", 35);
+        db.insert("recipes", null, v14);
+
+        // Resep 15
+        ContentValues v15 = new ContentValues();
+        v15.put("title", "Sup Ayam Wortel");
+        v15.put("desc", "Sup ringan dengan ayam dan wortel, cocok untuk anak-anak");
+        v15.put("ingredients", "Ayam, Wortel, Kentang, Daun bawang, Bawang putih, Merica, Garam");
+        v15.put("instructions", "1. Rebus ayam dan buang busanya.\n2. Tambahkan wortel dan kentang.\n3. Bumbui dan masak hingga matang.");
+        v15.put("image", "sup_ayam");
+        v15.put("time", 30);
+        db.insert("recipes", null, v15);
     }
 
     @Override

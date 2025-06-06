@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String username = preferences.getString("username", "Users");
-        String profilePic = preferences.getString("profilePic","default_image");
+        String profilePic = preferences.getString("profilePic","default_profile");
 
         TextView tvUsername = view.findViewById(R.id.tvUsername);
         tvUsername.setText(username);
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
                 // Path file lokal
                 Glide.with(this)
                         .load(new File(profilePic))
-                        .placeholder(R.drawable.default_image)
+                        .placeholder(R.drawable.default_profile)
                         .into(tvProfile);
             } else {
                 // Nama file dari drawable
