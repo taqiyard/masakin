@@ -179,6 +179,18 @@
                     android:fontFamily="@font/sniglet" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btnFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="#466551"
+                android:fontFamily="@font/sniglet"
+                android:text="+ Favorit"
+                android:textColor="#FFFFFF" />
+
         </LinearLayout>
 
     </LinearLayout>

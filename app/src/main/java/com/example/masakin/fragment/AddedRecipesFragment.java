@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.fragment;
 
 import android.os.Bundle;
 
@@ -10,14 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.adapter.MyRecipesAdapter;
+import com.example.masakin.R;
+import com.example.masakin.model.Recipe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddedRecipesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AddedRecipesFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -50,7 +51,7 @@ public class AddedRecipesFragment extends Fragment {
             }
         }
 
-        adapter = new MyRecipesAdapter(favRecipes);
+        adapter = new MyRecipesAdapter(getContext(),favRecipes);
         recyclerView.setAdapter(adapter);
         return view;
     }

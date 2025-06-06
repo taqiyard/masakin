@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.fragment;
 
 import android.os.Bundle;
 
@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.adapter.MyRecipesAdapter;
+import com.example.masakin.R;
+import com.example.masakin.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +41,7 @@ public class FavRecipesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
 
@@ -45,7 +52,7 @@ public class FavRecipesFragment extends Fragment {
             }
         }
 
-        adapter = new MyRecipesAdapter(favRecipes);
+        adapter = new MyRecipesAdapter(getContext(),favRecipes);
         recyclerView.setAdapter(adapter);
         return view;
     }

@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.R;
+import com.example.masakin.model.User;
 
 public class SignupActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
@@ -46,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         btnToLogin.setOnClickListener(v ->{
-            Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         });
     }

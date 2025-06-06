@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.activity;
 
 import android.os.Bundle;
 
@@ -11,7 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.masakin.fragment.AddFragment;
+import com.example.masakin.fragment.MyRecipesFragment;
+import com.example.masakin.R;
+import com.example.masakin.fragment.SettingsFragment;
 import com.example.masakin.databinding.ActivityMainBinding;
+import com.example.masakin.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 

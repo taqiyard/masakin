@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.R;
+import com.example.masakin.model.Recipe;
+import com.example.masakin.adapter.RecipeAdapter;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +78,37 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String username = preferences.getString("username", "Users");
+        String profilePic = preferences.getString("profilePic","default_image");
 
         TextView tvUsername = view.findViewById(R.id.tvUsername);
         tvUsername.setText(username);
+
+        ImageView tvProfile = view.findViewById(R.id.profile_image);
+
+        if (profilePic != null && !profilePic.isEmpty()) {
+            if (profilePic.startsWith("/")) {
+                // Path file lokal
+                Glide.with(this)
+                        .load(new File(profilePic))
+                        .placeholder(R.drawable.default_image)
+                        .into(tvProfile);
+            } else {
+                // Nama file dari drawable
+                int resId = getResources().getIdentifier(
+                        profilePic,
+                        "drawable",
+                        getContext().getPackageName()
+                );
+                if (resId != 0) {
+                    tvProfile.setImageResource(resId);
+                } else {
+                    tvProfile.setImageResource(R.drawable.default_image);
+                }
+            }
+        } else {
+            tvProfile.setImageResource(R.drawable.default_image);
+        }
+
 
         return view;
 

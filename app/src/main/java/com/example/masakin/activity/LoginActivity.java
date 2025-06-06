@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,11 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.R;
 
 public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
@@ -56,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnToDaftar.setOnClickListener(v ->{
-            Intent intent = new Intent(LoginActivity.this,SignupActivity.class);
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
     }

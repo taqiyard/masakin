@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.masakin.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }, 3000);

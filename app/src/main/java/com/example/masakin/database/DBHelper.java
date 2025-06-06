@@ -1,10 +1,13 @@
-package com.example.masakin;
+package com.example.masakin.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.masakin.model.Recipe;
+import com.example.masakin.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,6 +224,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return recipes;
+    }
+
+    public boolean setFavorite(String title, int isFav) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("isFav", isFav);
+
+        int rows = db.update("recipes", values, "title=?", new String[]{title});
+        db.close();
+        return rows > 0;
+    }
+
+    public void updateIsDel(int id, int isDel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("isDel", isDel);
+        db.update("recipes", values, "id=?", new String[]{String.valueOf(id)});
+        db.close();
     }
 
 }

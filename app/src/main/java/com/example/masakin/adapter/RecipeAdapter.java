@@ -1,7 +1,6 @@
-package com.example.masakin;
+package com.example.masakin.adapter;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.masakin.R;
+import com.example.masakin.model.Recipe;
+import com.example.masakin.activity.DetailRecipeActivity;
 
 import java.io.File;
 import java.util.List;
@@ -78,6 +80,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             intent.putExtra("instructions", recipe.getInstructions());
             intent.putExtra("image", recipe.getImage());
             intent.putExtra("time", recipe.getTime());
+            intent.putExtra("isFav", recipe.getIsFav());
             holder.itemView.getContext().startActivity(intent);
         });
     }

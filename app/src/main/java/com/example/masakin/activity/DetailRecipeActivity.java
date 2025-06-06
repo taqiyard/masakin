@@ -1,19 +1,22 @@
-package com.example.masakin;
+package com.example.masakin.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import com.example.masakin.database.DBHelper;
+
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.masakin.R;
+import com.example.masakin.model.Recipe;
 
 import java.io.File;
 
@@ -24,6 +27,8 @@ public class DetailRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_recipe);
 
+        DBHelper dbHelper = new DBHelper(this);
+
         ImageView ivImage = findViewById(R.id.ivImage);
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvDesc = findViewById(R.id.tvDesc);
@@ -31,6 +36,7 @@ public class DetailRecipeActivity extends AppCompatActivity {
         TextView tvInstructions = findViewById(R.id.tvInstructions);
         ImageButton ibBack = findViewById(R.id.ibBack);
         TextView tvTime = findViewById(R.id.tvTime);
+        Button btnFav = findViewById(R.id.btnFav);
 
         ibBack.setOnClickListener(v -> finish());
 
@@ -41,6 +47,23 @@ public class DetailRecipeActivity extends AppCompatActivity {
         String instructions = intent.getStringExtra("instructions");
         String imageName = intent.getStringExtra("image");
         int time = intent.getIntExtra("time",30);
+        int isFav = intent.getIntExtra("isFav", 0);
+
+        Log.d("DetailRecipe","Nilai isFav = " +isFav);
+
+        if (isFav == 1) {
+            btnFav.setText("Favorit ✔");
+        }
+
+
+        btnFav.setOnClickListener(v -> {
+            boolean success = dbHelper.setFavorite(title, 1);
+
+            if(success){
+                btnFav.setText("Favorit ✔");
+                Toast.makeText(this, "Resep ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         tvTitle.setText(title);
         tvDesc.setText(desc);

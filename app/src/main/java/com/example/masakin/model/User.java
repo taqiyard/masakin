@@ -1,4 +1,4 @@
-package com.example.masakin;
+package com.example.masakin.model;
 
 public class User {
     private String username;

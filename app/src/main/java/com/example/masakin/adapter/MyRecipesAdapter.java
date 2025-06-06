@@ -1,10 +1,13 @@
-package com.example.masakin;
+package com.example.masakin.adapter;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,15 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.masakin.R;
+import com.example.masakin.database.DBHelper;
+import com.example.masakin.model.Recipe;
+import com.example.masakin.activity.DetailRecipeActivity;
 
 import java.io.File;
 import java.util.List;
 
 public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRecipesViewHolder> {
     private List<Recipe> recipeList;
+    private Context context;
+    private DBHelper dbHelper;
 
-    public MyRecipesAdapter(List<Recipe> recipeList){
+    public MyRecipesAdapter(Context context, List<Recipe> recipeList){
+        this.context = context;
         this.recipeList = recipeList;
+        this.dbHelper = new DBHelper(context);
     }
 
 
@@ -78,8 +89,29 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
             intent.putExtra("instructions", recipe.getInstructions());
             intent.putExtra("image", recipe.getImage());
             intent.putExtra("time", recipe.getTime());
+            intent.putExtra("isFav", recipe.getIsFav());
             holder.itemView.getContext().startActivity(intent);
         });
+
+        holder.btnDel.setOnClickListener(v -> {
+            if (position != RecyclerView.NO_POSITION) {
+                new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle("Hapus Resep")
+                        .setMessage("Apakah kamu yakin ingin menghapus resep ini?")
+                        .setPositiveButton("Ya", (dialog, which) -> {
+                            recipeList.get(position);
+                            recipe.setIsDel(1); // Tandai sebagai dihapus
+
+                            dbHelper.updateIsDel(recipe.getId(), 1); // Update DB
+
+                            recipeList.remove(position); // Hapus dari list
+                            notifyItemRemoved(position); // Update RecyclerView
+                        })
+                        .setNegativeButton("Batal", null) // Tidak melakukan apa-apa
+                        .show();
+            }
+        });
+
     }
 
 
@@ -90,13 +122,18 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
     public static class MyRecipesViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle,tvDesc,tvTime;
         ImageView ivImage;
+        ImageButton btnDel;
 
         public MyRecipesViewHolder(@NonNull View itemview){
             super(itemview);
+
             tvTitle = itemview.findViewById(R.id.tvTitle);
             tvDesc = itemview.findViewById(R.id.tvDesc);
             tvTime = itemview.findViewById(R.id.tvTime);
             ivImage = itemview.findViewById(R.id.ivImage);
+            btnDel = itemview.findViewById(R.id.btnDelete);
+
+
 
         }
     }
