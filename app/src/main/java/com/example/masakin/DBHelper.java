@@ -171,11 +171,56 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<Recipe> getFavoriteRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM recipes WHERE isFav = 1", null);
 
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String desc = cursor.getString(2);
+                String ingredients = cursor.getString(3);
+                String instructions = cursor.getString(4);
+                String image = cursor.getString(5);
+                int isFav = cursor.getInt(6);
+                int isMine = cursor.getInt(7);
+                int isDel = cursor.getInt(8);
+                int time = cursor.getInt(9);
 
+                recipes.add(new Recipe(id, title, desc, ingredients, instructions, image, isFav, isMine, isDel, time));
+            } while (cursor.moveToNext());
+        }
 
+        cursor.close();
+        return recipes;
+    }
 
+    public List<Recipe> getMyRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM recipes WHERE isMine = 1", null);
 
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String title = cursor.getString(1);
+                String desc = cursor.getString(2);
+                String ingredients = cursor.getString(3);
+                String instructions = cursor.getString(4);
+                String image = cursor.getString(5);
+                int isFav = cursor.getInt(6);
+                int isMine = cursor.getInt(7);
+                int isDel = cursor.getInt(8);
+                int time = cursor.getInt(9);
 
+                recipes.add(new Recipe(id, title, desc, ingredients, instructions, image, isFav, isMine, isDel, time));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return recipes;
+    }
 
 }
