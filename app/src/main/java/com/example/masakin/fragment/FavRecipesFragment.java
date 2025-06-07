@@ -47,12 +47,12 @@ public class FavRecipesFragment extends Fragment {
 
         List<Recipe> favRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (r.getIsFav() == 1 && r.getIsDel() == 0) {
+            if (r.getIsFav() == 1) {
                 favRecipes.add(r);
             }
         }
 
-        adapter = new MyRecipesAdapter(getContext(),favRecipes);
+        adapter = new MyRecipesAdapter(getContext(),favRecipes,"fav");
         recyclerView.setAdapter(adapter);
         return view;
     }

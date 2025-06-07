@@ -51,7 +51,10 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/sniglet"
+            android:textSize="25dp"
+            android:text="Profile Setings" />
 
         <Button
             android:id="@+id/button"

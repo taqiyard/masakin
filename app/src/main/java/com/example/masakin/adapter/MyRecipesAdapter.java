@@ -27,11 +27,13 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
     private List<Recipe> recipeList;
     private Context context;
     private DBHelper dbHelper;
+    private String sourceType;
 
-    public MyRecipesAdapter(Context context, List<Recipe> recipeList){
+    public MyRecipesAdapter(Context context, List<Recipe> recipeList,String sourceType){
         this.context = context;
         this.recipeList = recipeList;
         this.dbHelper = new DBHelper(context);
+        this.sourceType = sourceType;
     }
 
 
@@ -100,12 +102,17 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
                         .setMessage("Apakah kamu yakin ingin menghapus resep ini?")
                         .setPositiveButton("Ya", (dialog, which) -> {
                             recipeList.get(position);
-                            recipe.setIsDel(1); // Tandai sebagai dihapus
+                            // Ubah berdasarkan sourceType
+                            if ("fav".equals(sourceType)) {
+                                recipe.setIsFav(0);
+                                dbHelper.updateIsFav(recipe.getId(), 0);
+                            } else if ("added".equals(sourceType)) {
+                                recipe.setIsMine(2);
+                                dbHelper.updateIsMine(recipe.getId(), 2);
+                            }
 
-                            dbHelper.updateIsDel(recipe.getId(), 1); // Update DB
-
-                            recipeList.remove(position); // Hapus dari list
-                            notifyItemRemoved(position); // Update RecyclerView
+                            recipeList.remove(position);
+                            notifyItemRemoved(position);
                         })
                         .setNegativeButton("Batal", null) // Tidak melakukan apa-apa
                         .show();

@@ -334,4 +334,19 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateIsFav(int id, int isFav) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("isFav", isFav);
+        db.update("recipes", values, "id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public void updateIsMine(int id, int isMine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("isMine", isMine);
+        db.update("recipes", values, "id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
 }

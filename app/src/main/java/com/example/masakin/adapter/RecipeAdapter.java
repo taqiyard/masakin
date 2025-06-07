@@ -81,6 +81,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             intent.putExtra("image", recipe.getImage());
             intent.putExtra("time", recipe.getTime());
             intent.putExtra("isFav", recipe.getIsFav());
+            intent.putExtra("isDel", recipe.getIsDel());
             holder.itemView.getContext().startActivity(intent);
         });
     }

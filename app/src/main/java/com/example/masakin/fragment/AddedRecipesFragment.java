@@ -44,14 +44,14 @@ public class AddedRecipesFragment extends Fragment {
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
 
-        List<Recipe> favRecipes = new ArrayList<>();
+        List<Recipe> AddedRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (r.getIsMine() == 1 && r.getIsDel() == 0) {
-                favRecipes.add(r);
+            if (r.getIsMine() == 1) {
+                AddedRecipes.add(r);
             }
         }
 
-        adapter = new MyRecipesAdapter(getContext(),favRecipes);
+        adapter = new MyRecipesAdapter(getContext(),AddedRecipes,"added");
         recyclerView.setAdapter(adapter);
         return view;
     }

@@ -48,10 +48,11 @@ public class DetailRecipeActivity extends AppCompatActivity {
         String imageName = intent.getStringExtra("image");
         int time = intent.getIntExtra("time",30);
         int isFav = intent.getIntExtra("isFav", 0);
+        int isDel = intent.getIntExtra("isDel", 0);
 
         Log.d("DetailRecipe","Nilai isFav = " +isFav);
 
-        if (isFav == 1) {
+        if (isFav == 1 && isDel == 0) {
             btnFav.setText("Favorit ✔");
         }
 

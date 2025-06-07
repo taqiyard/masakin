@@ -48,7 +48,14 @@ public class HomeFragment extends Fragment {
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
 
-        adapter = new RecipeAdapter(recipeList);
+        List<Recipe> PopularRecipes = new ArrayList<>();
+        for (Recipe r : recipeList) {
+            if (r.getIsMine() == 0) {
+                PopularRecipes.add(r);
+            }
+        }
+
+        adapter = new RecipeAdapter(PopularRecipes);
         recyclerView.setAdapter(adapter);
 
         searchView = view.findViewById(R.id.search_view);
