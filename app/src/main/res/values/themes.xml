@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Masakin" parent="Base.Theme.Masakin" />
+
+    <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- opsional -->
+        <item name="android:fontFamily">@font/sniglet</item>
+    </style>
 </resources>

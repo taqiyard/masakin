@@ -2,4 +2,5 @@
     <string name="app_name">Masakin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_masakin">Masakin adalah aplikasi Android yang dirancang untuk membantu pengguna dalam aktivitas memasak sehari-hari, mulai dari mencari inspirasi resep hingga mengelola profil pribadi secara praktis. Dengan antarmuka yang sederhana dan fitur-fitur dasar seperti login, logout, dan penggantian foto profil, Masakin bertujuan memberikan pengalaman memasak yang lebih mudah dan terorganisir bagi semua kalangan.</string>
 </resources>
