@@ -155,7 +155,7 @@
                     <ImageView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@drawable/hanif"
+                        android:src="@drawable/hanif_new"
                         android:scaleType="centerCrop"
                         android:contentDescription="Team photo" />
 
