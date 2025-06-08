@@ -96,13 +96,13 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
         });
 
         holder.btnDel.setOnClickListener(v -> {
-            if (position != RecyclerView.NO_POSITION) {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
                 new AlertDialog.Builder(holder.itemView.getContext())
                         .setTitle("Hapus Resep")
                         .setMessage("Apakah kamu yakin ingin menghapus resep ini?")
                         .setPositiveButton("Ya", (dialog, which) -> {
-                            recipeList.get(position);
-                            // Ubah berdasarkan sourceType
+                          recipeList.get(pos);
                             if ("fav".equals(sourceType)) {
                                 recipe.setIsFav(0);
                                 dbHelper.updateIsFav(recipe.getId(), 0);
@@ -111,10 +111,10 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
                                 dbHelper.updateIsMine(recipe.getId(), 2);
                             }
 
-                            recipeList.remove(position);
-                            notifyItemRemoved(position);
+                            recipeList.remove(pos);
+                            notifyItemRemoved(pos);
                         })
-                        .setNegativeButton("Batal", null) // Tidak melakukan apa-apa
+                        .setNegativeButton("Batal", null)
                         .show();
             }
         });

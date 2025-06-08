@@ -47,9 +47,14 @@ public class FavRecipesFragment extends Fragment {
 
         List<Recipe> favRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (r.getIsFav() == 1) {
+            if (r.getIsFav() == 1 && r.getIsMine() == 1) {
                 favRecipes.add(r);
             }
+            else if (r.getIsFav() == 1 && r.getIsMine() == 0) {
+                favRecipes.add(r);
+            }
+
+            
         }
 
         adapter = new MyRecipesAdapter(getContext(),favRecipes,"fav");
