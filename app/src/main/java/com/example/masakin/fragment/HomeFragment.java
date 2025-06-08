@@ -92,15 +92,15 @@ public class HomeFragment extends Fragment {
 
         ImageView tvProfile = view.findViewById(R.id.profile_image);
 
+       profilePic = dbHelper.getProfilePic(username);
+
         if (profilePic != null && !profilePic.isEmpty()) {
             if (profilePic.startsWith("/")) {
-                // Path file lokal
                 Glide.with(this)
                         .load(new File(profilePic))
                         .placeholder(R.drawable.default_profile)
                         .into(tvProfile);
             } else {
-                // Nama file dari drawable
                 int resId = getResources().getIdentifier(
                         profilePic,
                         "drawable",

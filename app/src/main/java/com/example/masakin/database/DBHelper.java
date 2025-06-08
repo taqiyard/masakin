@@ -35,6 +35,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 "isDel INTEGER DEFAULT 0, " +
                 "time INTEGER)");
 
+        db.execSQL("CREATE TABLE user_recipes (" +
+                "user_id INTEGER, " +
+                "recipe_id INTEGER, " +
+                "PRIMARY KEY (user_id, recipe_id))");
+
+        db.execSQL("CREATE TABLE user_favorites (" +
+                "user_id INTEGER, " +
+                "recipe_id INTEGER, " +
+                "PRIMARY KEY (user_id, recipe_id))");
+
         // Resep 1
         ContentValues v1 = new ContentValues();
         v1.put("title", "Nasi Goreng Spesial");
@@ -348,5 +358,47 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("isMine", isMine);
         db.update("recipes", values, "id=?", new String[]{String.valueOf(id)});
         db.close();
+    }
+
+    public boolean updateProfilePic(String username, String profilePicPath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("profilePic", profilePicPath);
+
+        int rows = db.update("users", cv, "username = ?", new String[]{username});
+        return rows > 0; // true jika update berhasil
+    }
+
+    // Ambil profilePic user
+    public String getProfilePic(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String profilePic = null;
+
+        Cursor cursor = db.rawQuery("SELECT profilePic FROM users WHERE username = ?", new String[]{username});
+        if (cursor.moveToFirst()) {
+            profilePic = cursor.getString(0);
+        }
+        cursor.close();
+        return profilePic;
+    }
+
+    public void addFavorite(int userId, int recipeId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("recipe_id", recipeId);
+        db.insert("user_favorites", null, values);
+    }
+
+    private Recipe cursorToRecipe(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+        String desc = cursor.getString(cursor.getColumnIndexOrThrow("desc"));
+        String ingredients = cursor.getString(cursor.getColumnIndexOrThrow("ingredients"));
+        String instructions = cursor.getString(cursor.getColumnIndexOrThrow("instructions"));
+        String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
+        int time = cursor.getInt(cursor.getColumnIndexOrThrow("time"));
+
+        return new Recipe(id, title, desc, ingredients, instructions, image, time);
     }
 }

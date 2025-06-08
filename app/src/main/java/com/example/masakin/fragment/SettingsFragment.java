@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +18,8 @@ import com.bumptech.glide.Glide;
 import com.example.masakin.R;
 import com.example.masakin.activity.AboutActivity;
 import com.example.masakin.activity.LoginActivity;
-import com.example.masakin.activity.MainActivity;
-import com.example.masakin.activity.SignupActivity;
+import com.example.masakin.database.DBHelper;
 import com.google.android.material.imageview.ShapeableImageView;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,45 +33,39 @@ public class SettingsFragment extends Fragment {
     private ShapeableImageView ibChangepp;
     private Uri selectedImageUri = null;
     private String selectedImagePath = null;
-    ImageView tvProfile;
-
-    public SettingsFragment() {
-        // Konstruktor kosong dibutuhkan oleh Fragment
-    }
+    private ImageView tvProfile;
+    private DBHelper dbHelper;
+    private String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        dbHelper = new DBHelper(requireContext());
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        username = prefs.getString("username", "defaultUser");
 
         ShapeableImageView ibLogout = view.findViewById(R.id.ibLogout);
         TextView tvUsername = view.findViewById(R.id.tvUsername);
+        tvProfile = view.findViewById(R.id.profile_image);
+        ibChangepp = view.findViewById(R.id.ibChangepp);
+        ShapeableImageView ibAbout = view.findViewById(R.id.ibAbout);
 
-        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-
-        ibLogout.setOnClickListener(v -> {
-
-            // Arahkan ke LoginActivity dan clear backstack
-            Intent intent = new Intent(requireActivity(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
-
-        String username = prefs.getString("username", "Guest");
         tvUsername.setText(username);
 
-        String profilePic = prefs.getString("profilePic","default_profile");
-        tvProfile = view.findViewById(R.id.profile_image);
+        // Ambil foto profil dari database
+        String profilePic = dbHelper.getProfilePic(username);
 
         if (profilePic != null && !profilePic.isEmpty()) {
             if (profilePic.startsWith("/")) {
-                // Path file lokal
                 Glide.with(this)
                         .load(new File(profilePic))
                         .placeholder(R.drawable.default_profile)
                         .into(tvProfile);
             } else {
-                // Nama file dari drawable
                 int resId = getResources().getIdentifier(
                         profilePic,
                         "drawable",
@@ -92,16 +81,18 @@ public class SettingsFragment extends Fragment {
             tvProfile.setImageResource(R.drawable.default_image);
         }
 
-        ibChangepp = view.findViewById(R.id.ibChangepp);
-        ibChangepp.setOnClickListener(v -> openImagePicker());
-
-        ShapeableImageView ibAbout = view.findViewById(R.id.ibAbout);
-        ibAbout.setOnClickListener(v ->{
-            Intent intent = new Intent(requireActivity(), AboutActivity.class);
+        ibLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
 
+        ibChangepp.setOnClickListener(v -> openImagePicker());
 
+        ibAbout.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), AboutActivity.class);
+            startActivity(intent);
+        });
 
         return view;
     }
@@ -112,37 +103,33 @@ public class SettingsFragment extends Fragment {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-            selectedImageUri = imageUri; // <<-- ini tambahan
+            selectedImageUri = imageUri;
 
-            // Salin ke internal storage
             String imagePath = copyImageToInternalStorage(imageUri, "img_" + System.currentTimeMillis() + ".jpg");
 
             if (imagePath != null) {
                 selectedImagePath = imagePath;
+
                 Glide.with(this)
                         .load(imagePath)
                         .skipMemoryCache(true)
                         .placeholder(R.drawable.default_profile)
                         .into(tvProfile);
 
-
-                SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("profilePic", imagePath);
-                editor.apply();
+                // Simpan path foto ke database, bukan SharedPreferences
+                boolean updated = dbHelper.updateProfilePic(username, imagePath);
+                if (!updated) {
+                    // Handle jika update gagal (opsional)
+                }
             }
         }
     }
-
 
     public String copyImageToInternalStorage(Uri uri, String filename) {
         try {
@@ -159,18 +146,10 @@ public class SettingsFragment extends Fragment {
             outputStream.close();
             inputStream.close();
 
-            return file.getAbsolutePath(); // ini yang bisa disimpan di SQLite
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
-
-
-
-
-
-
 }
-
-
