@@ -50,24 +50,28 @@ public class DetailRecipeActivity extends AppCompatActivity {
         String imageName = intent.getStringExtra("image");
         int time = intent.getIntExtra("time", 30);
 
-
         int userId = getSharedPreferences("user_prefs", MODE_PRIVATE).getInt("id", -1);
-        int recipeId = getIntent().getIntExtra("recipe_id", -1);
+        int recipeId = intent.getIntExtra("recipe_id", -1);
 
 
-        if (dbHelper.isRecipeFavoritedByUser(recipeId, userId)) {
+        if (dbHelper.isRecipeFavoritedByUser(userId,recipeId)) {
             btnFav.setText("Favorit ✔");
         } else {
-            btnFav.setText("Tambah ke Favorit");
+            btnFav.setText("+ Favorit");
         }
 
 
 
         btnFav.setOnClickListener(v -> {
-           dbHelper.addFavorite(userId, recipeId);
-           btnFav.setText("Favorit ✔");
-           Toast.makeText(this, "Resep ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
-
+            if (dbHelper.isRecipeFavoritedByUser(userId, recipeId)) {
+                dbHelper.removeFavorite(userId, recipeId);
+                btnFav.setText("+ Favorit");
+                Toast.makeText(this, "Resep dihapus dari favorit", Toast.LENGTH_SHORT).show();
+            } else {
+                dbHelper.addFavorite(userId, recipeId);
+                btnFav.setText("Favorit ✔");
+                Toast.makeText(this, "Resep ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
+            }
         });
 
         tvTitle.setText(title);

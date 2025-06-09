@@ -81,7 +81,7 @@ public class AddFragment extends Fragment {
             Recipe recipe = new Recipe(title, desc, ingredients, instructions,selectedImagePath,time,0);
             DBHelper dbHelper = new DBHelper(getContext());
             long inserted = dbHelper.addUserRecipe(userId,recipe);
-            if (inserted == recipe.getId()) {
+            if (inserted != -1) {
                 Toast.makeText(getContext(), "Resep berhasil disimpan", Toast.LENGTH_SHORT).show();
                 etTitle.setText("");
                 etDesc.setText("");

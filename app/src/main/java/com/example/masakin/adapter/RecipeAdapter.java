@@ -2,6 +2,7 @@ package com.example.masakin.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +74,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             holder.ivImage.setImageResource(R.drawable.default_image);
         }
 
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailRecipeActivity.class);
+            intent.putExtra("recipe_id",recipe.getId());
             intent.putExtra("title", recipe.getTitle());
             intent.putExtra("desc", recipe.getDesc());
             intent.putExtra("ingredients", recipe.getIngredients());

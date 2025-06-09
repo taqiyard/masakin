@@ -52,7 +52,7 @@ public class FavRecipesFragment extends Fragment {
 
         List<Recipe> favRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (dbHelper.isRecipeFavoritedByUser(r.getId(),userId)) {
+            if (dbHelper.isRecipeFavoritedByUser(userId,r.getId()) && r.getIsDel() == 0) {
                 favRecipes.add(r);
             }
         }

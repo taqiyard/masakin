@@ -87,6 +87,7 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailRecipeActivity.class);
+            intent.putExtra("recipe_id",recipe.getId());
             intent.putExtra("title", recipe.getTitle());
             intent.putExtra("desc", recipe.getDesc());
             intent.putExtra("ingredients", recipe.getIngredients());
@@ -109,9 +110,9 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
                         .setPositiveButton("Ya", (dialog, which) -> {
                           recipeList.get(pos);
                             if ("fav".equals(sourceType)) {
-                                dbHelper.addFavorite(userId,recipe.getId());
+                                dbHelper.removeFavorite(userId,recipe.getId());
                             } else if ("added".equals(sourceType)) {
-                                dbHelper.addUserRecipe(userId,recipe);
+                                dbHelper.hideUserRecipe(userId,recipe.getId());
                             }
 
                             recipeList.remove(pos);
