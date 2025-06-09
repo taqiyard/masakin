@@ -6,23 +6,8 @@ public class Recipe {
     private String desc;
     private String ingredients;
     private String instructions;
-    private int isFav;
 
-    public int getIsFav() {
-        return isFav;
-    }
 
-    public void setIsFav(int isFav) {
-        this.isFav = isFav;
-    }
-
-    public int getIsMine() {
-        return isMine;
-    }
-
-    public void setIsMine(int isMine) {
-        this.isMine = isMine;
-    }
 
     public int getTime() {
         return time;
@@ -32,16 +17,6 @@ public class Recipe {
         this.time = time;
     }
 
-    public int getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(int isDel) {
-        this.isDel = isDel;
-    }
-
-    private int isMine;
-    private int isDel;
     private int time;
 
     public String getImage() {
@@ -54,30 +29,36 @@ public class Recipe {
 
     private String image;
 
-    public Recipe(int id, String title, String desc, String ingredients, String instructions, String image,int isFav,int isMine,int isDel,int time) {
+    public int getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(int isDel) {
+        this.isDel = isDel;
+    }
+
+    private int isDel;
+
+    public Recipe(int id, String title, String desc, String ingredients, String instructions, String image,int time, int isDel) {
         this.id = id;
         this.title = title;
         this.desc = desc;
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.image = image;
-        this.isFav = isFav;
-        this.isMine = isMine;
-        this.isDel = isDel;
         this.time = time;
+        this.isDel = isDel;
     }
 
     // Constructor tanpa id, digunakan saat membuat data baru
-    public Recipe(String title, String desc, String ingredients, String instructions, String image, int isFav, int isMine, int isDel, int time) {
+    public Recipe(String title, String desc, String ingredients, String instructions, String image, int time,int isDel) {
         this.title = title;
         this.desc = desc;
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.image = image;
-        this.isFav = isFav;
-        this.isMine = isMine;
-        this.isDel = isDel;
         this.time = time;
+        this.isDel = isDel;
     }
 
 

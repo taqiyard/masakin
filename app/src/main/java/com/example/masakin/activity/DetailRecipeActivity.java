@@ -1,6 +1,8 @@
 package com.example.masakin.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -46,24 +48,26 @@ public class DetailRecipeActivity extends AppCompatActivity {
         String ingredients = intent.getStringExtra("ingredients");
         String instructions = intent.getStringExtra("instructions");
         String imageName = intent.getStringExtra("image");
-        int time = intent.getIntExtra("time",30);
-        int isFav = intent.getIntExtra("isFav", 0);
-        int isDel = intent.getIntExtra("isDel", 0);
+        int time = intent.getIntExtra("time", 30);
 
-        Log.d("DetailRecipe","Nilai isFav = " +isFav);
 
-        if (isFav == 1 && isDel == 0) {
+        int userId = getSharedPreferences("user_prefs", MODE_PRIVATE).getInt("id", -1);
+        int recipeId = getIntent().getIntExtra("recipe_id", -1);
+
+
+        if (dbHelper.isRecipeFavoritedByUser(recipeId, userId)) {
             btnFav.setText("Favorit ✔");
+        } else {
+            btnFav.setText("Tambah ke Favorit");
         }
 
 
-        btnFav.setOnClickListener(v -> {
-            boolean success = dbHelper.setFavorite(title, 1);
 
-            if(success){
-                btnFav.setText("Favorit ✔");
-                Toast.makeText(this, "Resep ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
-            }
+        btnFav.setOnClickListener(v -> {
+           dbHelper.addFavorite(userId, recipeId);
+           btnFav.setText("Favorit ✔");
+           Toast.makeText(this, "Resep ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
+
         });
 
         tvTitle.setText(title);

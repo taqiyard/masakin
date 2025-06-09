@@ -1,5 +1,6 @@
 package com.example.masakin.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.List;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private List<Recipe> recipeList;
 
-    public RecipeAdapter(List<Recipe> recipeList){
+    public RecipeAdapter(Context context, List<Recipe> recipeList){
         this.recipeList = recipeList;
     }
 
@@ -80,8 +81,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             intent.putExtra("instructions", recipe.getInstructions());
             intent.putExtra("image", recipe.getImage());
             intent.putExtra("time", recipe.getTime());
-            intent.putExtra("isFav", recipe.getIsFav());
-            intent.putExtra("isDel", recipe.getIsDel());
             holder.itemView.getContext().startActivity(intent);
         });
     }

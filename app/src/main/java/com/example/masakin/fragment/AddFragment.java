@@ -1,7 +1,9 @@
 package com.example.masakin.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,15 +55,15 @@ public class AddFragment extends Fragment {
         EditText etTime = view.findViewById(R.id.etAddTime);
         Button btnSave = view.findViewById(R.id.btnSave);
 
+        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("id",0);
+
         btnSave.setOnClickListener(v -> {
             String title = etTitle.getText().toString().trim();
             String desc = etDesc.getText().toString().trim();
             String ingredients = etIngredients.getText().toString().trim();
             String instructions = etInstructions.getText().toString().trim();
             String timeStr = etTime.getText().toString().trim();
-            int isFav = 0;
-            int isMine = 1;
-            int isDel = 0;
 
             if (title.isEmpty() || desc.isEmpty() || ingredients.isEmpty() || instructions.isEmpty() || timeStr.isEmpty()) {
                 Toast.makeText(getContext(), "Harap isi semua data", Toast.LENGTH_SHORT).show();
@@ -76,11 +78,10 @@ public class AddFragment extends Fragment {
             int time = Integer.parseInt(timeStr);
             String imageUriString = selectedImageUri.toString();
 
-            Recipe recipe = new Recipe(title, desc, ingredients, instructions,selectedImagePath,isFav, isMine, isDel,time);
+            Recipe recipe = new Recipe(title, desc, ingredients, instructions,selectedImagePath,time,0);
             DBHelper dbHelper = new DBHelper(getContext());
-            boolean inserted = dbHelper.insertRecipe(recipe);
-
-            if (inserted) {
+            long inserted = dbHelper.addUserRecipe(userId,recipe);
+            if (inserted == recipe.getId()) {
                 Toast.makeText(getContext(), "Resep berhasil disimpan", Toast.LENGTH_SHORT).show();
                 etTitle.setText("");
                 etDesc.setText("");

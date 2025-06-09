@@ -3,6 +3,7 @@ package com.example.masakin.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
     private Context context;
     private DBHelper dbHelper;
     private String sourceType;
+
 
     public MyRecipesAdapter(Context context, List<Recipe> recipeList,String sourceType){
         this.context = context;
@@ -91,9 +93,12 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
             intent.putExtra("instructions", recipe.getInstructions());
             intent.putExtra("image", recipe.getImage());
             intent.putExtra("time", recipe.getTime());
-            intent.putExtra("isFav", recipe.getIsFav());
             holder.itemView.getContext().startActivity(intent);
         });
+
+        SharedPreferences prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("id",0);
+
 
         holder.btnDel.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
@@ -104,11 +109,9 @@ public class MyRecipesAdapter extends RecyclerView.Adapter<MyRecipesAdapter.MyRe
                         .setPositiveButton("Ya", (dialog, which) -> {
                           recipeList.get(pos);
                             if ("fav".equals(sourceType)) {
-                                recipe.setIsFav(0);
-                                dbHelper.updateIsFav(recipe.getId(), 0);
+                                dbHelper.addFavorite(userId,recipe.getId());
                             } else if ("added".equals(sourceType)) {
-                                recipe.setIsMine(2);
-                                dbHelper.updateIsMine(recipe.getId(), 2);
+                                dbHelper.addUserRecipe(userId,recipe);
                             }
 
                             recipeList.remove(pos);

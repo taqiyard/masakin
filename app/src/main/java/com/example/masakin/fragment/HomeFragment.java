@@ -45,17 +45,11 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        dbHelper = new DBHelper(getContext());
-        List<Recipe> recipeList = dbHelper.getAllRecipes();
+        DBHelper dbHelper = new DBHelper(getContext());
+        List<Recipe> popularRecipes = dbHelper.getDefaultRecipes(); // ini menampilkan resep default
 
-        List<Recipe> PopularRecipes = new ArrayList<>();
-        for (Recipe r : recipeList) {
-            if (r.getIsMine() == 0) {
-                PopularRecipes.add(r);
-            }
-        }
-
-        adapter = new RecipeAdapter(PopularRecipes);
+    // Kemudian set ke adapter
+        RecipeAdapter adapter = new RecipeAdapter(getContext(), popularRecipes);
         recyclerView.setAdapter(adapter);
 
         searchView = view.findViewById(R.id.search_view);

@@ -1,5 +1,7 @@
 package com.example.masakin.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -41,12 +43,15 @@ public class AddedRecipesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("id",0);
+
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
 
         List<Recipe> AddedRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (r.getIsMine() == 1) {
+            if (dbHelper.isRecipeAddedByUser(r.getId(),userId)) {
                 AddedRecipes.add(r);
             }
         }

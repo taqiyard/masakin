@@ -1,5 +1,7 @@
 package com.example.masakin.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -45,16 +47,14 @@ public class FavRecipesFragment extends Fragment {
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
 
+        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("id",0);
+
         List<Recipe> favRecipes = new ArrayList<>();
         for (Recipe r : recipeList) {
-            if (r.getIsFav() == 1 && r.getIsMine() == 1) {
+            if (dbHelper.isRecipeFavoritedByUser(r.getId(),userId)) {
                 favRecipes.add(r);
             }
-            else if (r.getIsFav() == 1 && r.getIsMine() == 0) {
-                favRecipes.add(r);
-            }
-
-            
         }
 
         adapter = new MyRecipesAdapter(getContext(),favRecipes,"fav");

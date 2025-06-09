@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 boolean valid = dbHelper.checkUserPass(username, password);
                 if(valid) {
+
+                    int id = dbHelper.getUserIdByUsername(username);  // Ambil id user
+
                     Toast.makeText(this, "Login berhasil", Toast.LENGTH_SHORT).show();
                     // Contoh pindah ke MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("username", username);
+                    editor.putInt("id", id);
                     editor.apply();
                     finish();
                 } else {
