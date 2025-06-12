@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         List<Recipe> popularRecipes = dbHelper.getDefaultRecipes(); // ini menampilkan resep default
 
     // Kemudian set ke adapter
-        RecipeAdapter adapter = new RecipeAdapter(getContext(), popularRecipes);
+        adapter = new RecipeAdapter(getContext(), popularRecipes);
         recyclerView.setAdapter(adapter);
 
         searchView = view.findViewById(R.id.search_view);
