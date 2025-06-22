@@ -1,4 +1,4 @@
-# 🍲 Masakin - Android Cooking Recipe App
+![image](https://github.com/user-attachments/assets/9cfc1f6c-ac38-47cb-ad50-ecb15ad53561)# 🍲 Masakin - Android Cooking Recipe App
 
 **Masakin** is an Android application that allows users to:
 - View default (built-in) recipes.
@@ -81,7 +81,22 @@ Example fields in the `recipes` table:
 ---
 
 ## 📸 Screenshots
-*(Add screenshots of your app here)*
+
+![image](https://github.com/user-attachments/assets/d240105c-6a57-42f4-96fa-c4016bdf4a6c)
+
+![image](https://github.com/user-attachments/assets/56eaaf07-43a3-4303-8c87-1fba86d38fba)
+
+![image](https://github.com/user-attachments/assets/00fa16a9-5d2f-4f1b-981d-9608e26901c4)
+
+![image](https://github.com/user-attachments/assets/1a1958cf-909c-42b6-821e-b5ed1e515843)
+
+![image](https://github.com/user-attachments/assets/101045f2-c645-436f-8634-f63809041295)
+
+![image](https://github.com/user-attachments/assets/e7938af9-bb82-4ab5-939a-e0f7872dc811)
+
+
+
+
 
 ---
 
