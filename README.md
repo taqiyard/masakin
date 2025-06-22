@@ -93,7 +93,7 @@ Example fields in the `recipes` table:
 ---
 
 ## 👨‍💻 Developed By
-Developed as a college project by [Taqi Yardan](https://github.com/).
+Developed as a college project by [Taqi Yardan](https://github.com/taqiyard).
 
 ---
 
