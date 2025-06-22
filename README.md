@@ -81,7 +81,7 @@ Example fields in the `recipes` table:
 ---
 
 ## 📸 Screenshots
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/c70461ac-6345-4862-9919-ca101e249276)
 
 
 
