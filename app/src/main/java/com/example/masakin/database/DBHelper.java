@@ -299,22 +299,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Recipe(id, title, desc, ingredients, instructions, image, time, isDel);
     }
 
-    public List<Recipe> getFavoriteRecipes(int userId) {
-        List<Recipe> recipes = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT r.* FROM recipes r " +
-                        "JOIN user_favorites uf ON r.id = uf.recipe_id " +
-                        "WHERE uf.user_id = ? AND r.isDel = 0",
-                new String[]{String.valueOf(userId)}
-        );
 
-        while (cursor.moveToNext()) {
-            recipes.add(cursorToRecipe(cursor)); // buat method ini sesuai struktur Recipe kamu
-        }
-        cursor.close();
-        return recipes;
-    }
 
     public long addUserRecipe(int userId, Recipe recipe) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -428,5 +413,20 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateUsername(String oldUsername, String newUsername) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("username", newUsername);
+        int rows = db.update("users", cv, "username = ?", new String[] {oldUsername});
+        return rows > 0;
+    }
+
+    public boolean updatePassword(String oldPassword, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("password", newPassword);
+        int rows = db.update("users", cv, "password = ?", new String[] {oldPassword});
+        return rows > 0;
+    }
 
 }

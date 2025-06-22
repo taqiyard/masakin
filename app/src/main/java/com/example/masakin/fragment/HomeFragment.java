@@ -46,12 +46,18 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         DBHelper dbHelper = new DBHelper(getContext());
-        List<Recipe> popularRecipes = dbHelper.getDefaultRecipes(); // ini menampilkan resep default
+        List<Recipe> allRecipes = dbHelper.getDefaultRecipes(); // Ambil semua resep
 
-    // Kemudian set ke adapter
+        // Filter isDel == 0
+        List<Recipe> popularRecipes = new ArrayList<>();
+        for (Recipe recipe : allRecipes) {
+            if (recipe.getIsDel() == 0) {
+                popularRecipes.add(recipe);
+            }
+        }
+
         adapter = new RecipeAdapter(getContext(), popularRecipes);
         recyclerView.setAdapter(adapter);
-
         searchView = view.findViewById(R.id.search_view);
         searchView.clearFocus();
         EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
@@ -119,10 +125,13 @@ public class HomeFragment extends Fragment {
     private void filterList(String text) {
         dbHelper = new DBHelper(getContext());
         List<Recipe> recipeList = dbHelper.getAllRecipes();
+
         List<Recipe> filteredList = new ArrayList<>();
-        for (Recipe recipe : recipeList){
-            if (recipe.getTitle().toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(recipe);
+        for (Recipe recipe : recipeList) {
+            if (recipe.getIsDel() == 0) {
+                if (recipe.getTitle().toLowerCase().contains(text.toLowerCase())){
+                    filteredList.add(recipe);
+                }
             }
         }
         if (filteredList.isEmpty()){

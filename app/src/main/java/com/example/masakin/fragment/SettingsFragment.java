@@ -1,6 +1,7 @@
 package com.example.masakin.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -36,6 +39,7 @@ public class SettingsFragment extends Fragment {
     private ImageView tvProfile;
     private DBHelper dbHelper;
     private String username;
+    private String password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +51,65 @@ public class SettingsFragment extends Fragment {
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         username = prefs.getString("username", "defaultUser");
+        password = prefs.getString("password", "defaultUser");
 
         ShapeableImageView ibLogout = view.findViewById(R.id.ibLogout);
         TextView tvUsername = view.findViewById(R.id.tvUsername);
+
+
+        ImageView ivEditUsername = view.findViewById(R.id.ivEditUsername);
+        ivEditUsername.setOnClickListener(v-> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Ubah Username");
+            final EditText input = new EditText(requireContext());
+            input.setText(username);
+            builder.setView(input);
+            builder.setPositiveButton("Simpan", (dialog, which)-> {
+                String newUsername = input.getText().toString().trim();
+                if (!newUsername.isEmpty()) {
+                    boolean updated = dbHelper.updateUsername(username, newUsername);
+                    if (updated) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("username", newUsername);
+                        editor.apply();
+                        username = newUsername;
+                        tvUsername.setText(newUsername);
+                    } else {
+                        Toast.makeText(requireContext(), "Gagal update username",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setNegativeButton("Batal", (dialog, which)-> dialog.cancel());
+            builder.show();
+        });
+
+        ImageView ivEditPassword = view.findViewById(R.id.ivEditPassword);
+        ivEditPassword.setOnClickListener(v-> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Masukkan Password Baru");
+            final EditText input = new EditText(requireContext());
+            builder.setView(input);
+            builder.setPositiveButton("Simpan", (dialog, which)-> {
+                String newPassword = input.getText().toString().trim();
+                if (!newPassword.isEmpty()) {
+                    boolean updated = dbHelper.updatePassword(password, newPassword);
+                    if (updated) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("password", newPassword);
+                        editor.apply();
+                        password = newPassword;
+                    } else {
+                        Toast.makeText(requireContext(), "Gagal update password",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setNegativeButton("Batal", (dialog, which)-> dialog.cancel());
+            builder.show();
+        });
+
+
         tvProfile = view.findViewById(R.id.profile_image);
         ibChangepp = view.findViewById(R.id.ibChangepp);
         ShapeableImageView ibAbout = view.findViewById(R.id.ibAbout);

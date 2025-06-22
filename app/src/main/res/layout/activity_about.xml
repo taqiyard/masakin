@@ -130,7 +130,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Backend Developer\nFrontend Developer"
+                            android:text="2310511057"
                             android:textColor="#666"
                             android:textSize="14sp"
                             android:fontFamily="@font/sniglet" />
@@ -177,7 +177,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UI/UX Desainer\nApp Tester"
+                            android:text="2310511038"
                             android:textColor="#666"
                             android:textSize="14sp"
                             android:fontFamily="@font/sniglet" />
@@ -224,7 +224,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UI/UX Desainer\nFrontend Developer"
+                            android:text="2210511149"
                             android:textColor="#666"
                             android:textSize="14sp"
                             android:fontFamily="@font/sniglet" />
@@ -271,7 +271,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UI/UX Desainer\nDocumenter"
+                            android:text="2210511149"
                             android:textColor="#666"
                             android:textSize="14sp"
                             android:fontFamily="@font/sniglet" />

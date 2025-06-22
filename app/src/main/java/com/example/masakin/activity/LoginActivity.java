@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("username", username);
+                    editor.putString("password", password);
                     editor.putInt("id", id);
                     editor.apply();
                     finish();
