@@ -7,6 +7,12 @@
     tools:context=".fragment.SettingsFragment">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +55,8 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <TextView
             android:id="@+id/textView6"
@@ -126,7 +134,6 @@
 
     </LinearLayout>
 
-
-
-
+    </ScrollView>
 </FrameLayout>
+
